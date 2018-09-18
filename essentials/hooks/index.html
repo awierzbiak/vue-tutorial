@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vue App</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <link rel="stylesheet" href="http://davidtkatz.com/public_css/vue.css" />
+    </head>
+    <body>
+        <div id="app">
+            <div>Hello world. Count: {{count}}</div>
+            <button class="vue-btn" @click="increment">Increment</button>
+        </div>
+        <script>
+            let app = new Vue({
+                el: "#app",
+                data: {
+                    count: 0
+                },
+                methods: {
+                    alertTime() {
+                        alert(`The time is ${Date.now().toLocaleString()}`);
+                    },
+
+                    increment() {
+                        this.count ++;
+                    }
+                },
+                created() {
+                    this.alertTime();
+                },
+                mounted() {
+                    this.alertTime();
+                },
+                updated() {
+                    this.alertTime();
+                }
+            });
+        </script>
+    </body>
+</html>

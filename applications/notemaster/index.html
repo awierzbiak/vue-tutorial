@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Notemaster</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="http://davidtkatz.com/public_css/vue.css" />
+    </head>
+    <body>
+        <div id="app">
+            <h3>{{title}}</h3>
+
+            <div class="form">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label>Note title</label>
+                        <input class="form-control" type="text" v-model="note.title" />
+                    </div>
+                    <div class="form-group">
+                        <label>Note text</label>
+                        <textarea class="form-control" v-model="note.text"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Note color</label>
+                        <input class="form-control" type="text" v-model="note.color" />
+                    </div>
+                </div>
+                <button class="btn btn-primary" @click="addNote">Submit</button>
+            </div>
+
+            <div class="col-sm-12">
+                <select v-model="color">
+                    <option value="all" selected>all</option>
+                    <option v-for="note in notes" v-bind:value="note.color">{{note.color}}</option>
+                </select>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="col-sm-4 note" v-for="(note, index) in notes" v-if="color == note.color || color == 'all'">
+                    <div class="card" v-bind:style="{ background: note.color}">
+                        <button class="close" @click="removeNote(index)">&times;</button>
+                        <div class="card-block">
+                            <h4 class="card-title">{{note.title}}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">{{note.date}}</h6>
+                            <p class="card.text">{{note.text}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    title: 'Notemaster',
+                    color: 'all',
+                    note: {
+                        title: '',
+                        text: '',
+                        color: ''
+                    },
+                    notes: [
+                        {
+                            title: 'About my dog',
+                            text: 'She is so cute, yet brave!',
+                            date: new Date(Date.now()).toLocaleString(),
+                            color: 'pink'
+                        },
+                        {
+                            title: 'Recipe for cocoa',
+                            text: '1 glass of almond milk, 2ts of cocoa powder, 1ts of cane sugar',
+                            date: new Date(Date.now()).toLocaleString(),
+                            color: 'peachpuff'
+                        },
+                        {
+                            title: 'To do',
+                            text: 'Do the laundry!!!',
+                            date: new Date(Date.now()).toLocaleString(),
+                            color: 'aquamarine'
+                        }
+                    ]
+                },
+                methods: {
+                    addNote() {
+                        let { text, title, color } = this.note;
+                        this.notes.push({
+                            text,
+                            title,
+                            date: new Date(Date.now()).toLocaleString(),
+                            color
+                        });
+                    },
+                    removeNote(index) {
+                        this.notes.splice(index, 1);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
